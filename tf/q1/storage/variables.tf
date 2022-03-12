@@ -73,6 +73,11 @@ variable "allow_blob_public_access" {
   default     = "true"
 }
 
+variable "shared_access_key_enabled" {
+  type        = string
+  description = "Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key"
+  default     = "true"
+}
 variable "index" {
   type        = string
   description = "Unique index to add to the end of the resource group name"
