@@ -45,7 +45,6 @@ variable "acr_admin_enabled" {
   default     = "eastus2"
 }
 
-
 variable "index" {
   type        = string
   description = "Unique index to add to the end of the resource group name"

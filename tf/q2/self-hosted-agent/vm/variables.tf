@@ -27,7 +27,7 @@ variable "location" {
 }
 variable "rg_name" {
   type        = string
-  description = "KeyVault resource group name"
+  description = "VM resource group name"
 }
 variable "keyvault_name" {
   type        = string

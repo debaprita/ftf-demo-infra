@@ -8,4 +8,4 @@ cost_center_number = "0000"
 
 index = "0"
 
-acr_admin_enabled = false
+acr_admin_enabled = true
