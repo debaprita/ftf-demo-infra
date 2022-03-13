@@ -1,10 +1,11 @@
 # main.tf
 
 module "locals" {
-  source             = "../../modules/locals"
+  source             = "../../../modules/locals"
   app_code           = var.app_code
   app_name           = var.app_name
   cost_center_number = var.cost_center_number
+  environment        = var.environment
   location           = var.location
 }
 
@@ -32,7 +33,7 @@ resource "azurerm_subnet" "self_hos_agent_subnet" {
   name                 = "${var.app_code}_${var.app_name}_subnet"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.self_hos_agent_vnet.name
-  address_prefix       = var.subnet_ip_address_prefix
+  address_prefixes     = var.subnet_ip_address_prefix
 }
 
 # nsg
@@ -54,7 +55,7 @@ resource "azurerm_network_security_rule" "self_hos_agent_subnet_nsg_rule_0" {
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.rg.name
-  network_security_group_name = azurerm_network_security_group.self_hos_agent_subnet_nsg
+  network_security_group_name = azurerm_network_security_group.self_hos_agent_subnet_nsg.name
 }
 
 # nsg_subnet_assoc

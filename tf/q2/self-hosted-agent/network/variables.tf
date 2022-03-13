@@ -27,13 +27,13 @@ variable "location" {
 }
 
 variable "subnet_ip_address_prefix" {
-  type        = string
+  type        = list(string)
   description = "Vnet subnet prefix"
   default     = ["10.1.0.0/24"]
 }
 
 variable "vnet_ip_address_prefix" {
-  type        = string
+  type        = list(string)
   description = "Vnet subnet prefix"
   default     = ["10.1.0.0/16"]
 }

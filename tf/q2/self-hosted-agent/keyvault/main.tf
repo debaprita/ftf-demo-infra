@@ -1,10 +1,11 @@
 # main.tf
 
 module "locals" {
-  source             = "../../modules/locals"
+  source             = "../../../modules/locals"
   app_code           = var.app_code
   app_name           = var.app_name
   cost_center_number = var.cost_center_number
+  environment        = var.environment
   location           = var.location
 }
 
@@ -14,7 +15,7 @@ locals {
 
 # keyvault
 resource "azurerm_key_vault" "kv" {
-  name                        = local.name
+  name                        = replace(local.name, "/-|_/", "")
   location                    = var.location
   resource_group_name         = var.rg_name
   enabled_for_disk_encryption = true

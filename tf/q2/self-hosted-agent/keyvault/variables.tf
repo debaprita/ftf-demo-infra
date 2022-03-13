@@ -35,3 +35,8 @@ variable "rg_name" {
   type        = string
   description = "KeyVault resource group name"
 }
+
+variable "index" {
+  type        = string
+  description = "Unique index to add to the end of the resource group name"
+}

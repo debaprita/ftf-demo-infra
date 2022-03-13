@@ -12,3 +12,13 @@ terraform {
     key                  = "debs/vnet-de-0.tfstate"
   }
 }
+data "azurerm_key_vault" "vault" {
+  name                = var.keyvault_name
+  resource_group_name = var.rg_name
+}
+
+data "azurerm_subnet" "self_hos_agent_subnet" {
+  name                 = var.subnet_name
+  virtual_network_name = var.subnet_vnet_name
+  resource_group_name  = var.rg_name
+}

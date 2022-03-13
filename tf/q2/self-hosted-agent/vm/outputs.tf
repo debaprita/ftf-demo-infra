@@ -1,5 +1,8 @@
 ## outputs.tf
 
 output "resource_group_name" {
-  value = azurerm_resource_group.rg.name
+  value = var.rg_name
+}
+output "pip" {
+  value = azurerm_public_ip.pip.ip_address
 }

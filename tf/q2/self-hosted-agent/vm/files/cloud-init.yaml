@@ -1,4 +1,4 @@
-# cloud-init
+#cloud-config
 
 package_update: true
 package_upgrade: true
@@ -8,18 +8,6 @@ resolv_conf:
   nameservers:
     - "8.8.8.8"
     - "8.8.4.4"
-
-users:
-  - name: dftfselfagnt
-    lock_passwd: true
-    shell: /bin/bash
-    ssh-authorized-keys:
-      - "${ssh_public_key}"
-    groups:
-      - dftfselfagnt
-      - docker
-    sudo:
-      - ALL=(ALL) NOPASSWD:ALL
 
 packages:
   - apt-transport-https
@@ -35,10 +23,14 @@ runcmd:
   - apt-get install -y docker-ce docker-ce-cli containerd.io
   - systemctl start docker
   - systemctl enable docker
-  - mkdir /home/dftfselfagnt/myagent && cd /home/dftfselfagnt/myagent
-  - wget https://vstsagentpackage.azureedge.net/agent/2.186.1/vsts-agent-linux-x64-2.186.1.tar.gz
-  - tar zxvf vsts-agent-linux-x64-2.186.1.tar.gz
-  - ./config.sh --unattended --agent "${AZP_AGENT_NAME:-$(hostname)}" --url ${az-devops-url} --auth PAT --token ${pat} --pool ${az-devops-agent-pool} --replace --acceptTeeEula
-  - sleep 180
-  - sudo ./svc.sh install
-  - sudo ./svc.sh start
+  - usermod -aG docker agentadm
+  - mkdir /home/agentadm/myagent && cd /home/agentadm/myagent
+  - wget https://vstsagentpackage.azureedge.net/agent/2.200.2/vsts-agent-linux-x64-2.200.2.tar.gz
+  - export AZP_AGENT_NAME=$(hostname)
+  - tar -zxvf vsts-agent-linux-x64-2.200.2.tar.gz
+  - rm vsts-agent-linux-x64-2.200.2.tar.gz
+  - chown -R agentadm:agentadm /home/agentadm/myagent
+  - su - agentadm -c "cd /home/agentadm/myagent && ./config.sh --unattended --agent $AZP_AGENT_NAME --url ${az_devops_url} --auth PAT --token ${pat} --pool ${az_devops_agent_pool} --replace --acceptTeeEula $!"
+  - sleep 10
+  - ./svc.sh install
+  - ./svc.sh start

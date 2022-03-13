@@ -8,4 +8,6 @@ cost_center_number = "0000"
 
 index = "0"
 
-sku_size = "Standard"
+sku_size = "standard"
+
+rg_name = "d-ftf_ex2-self-hos-agent_de_0"

@@ -1,10 +1,11 @@
 # main.tf
 
 module "locals" {
-  source             = "../../modules/locals"
+  source             = "../../../modules/locals"
   app_code           = var.app_code
   app_name           = var.app_name
   cost_center_number = var.cost_center_number
+  environment        = var.environment
   location           = var.location
 }
 
