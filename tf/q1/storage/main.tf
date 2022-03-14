@@ -1,12 +1,4 @@
-
-provider "azurerm" {
-  features {
-  }
-  storage_use_azuread = "true"
-  alias               = "sa_using_aad"
-
-}
-
+# main.tf
 module "locals" {
   source             = "../../modules/locals"
   app_code           = var.app_code
@@ -31,7 +23,6 @@ resource "azurerm_resource_group" "rg" {
 
 # storage acc
 resource "azurerm_storage_account" "sa" {
-  provider                  = azurerm.sa_using_aad
   name                      = replace(local.name, "/-|_/", "")
   resource_group_name       = azurerm_resource_group.rg.name
   location                  = var.location
@@ -52,7 +43,6 @@ resource "azurerm_storage_account" "sa" {
 
 # container 
 resource "azurerm_storage_container" "files" {
-  provider              = azurerm.sa_using_aad
   name                  = var.storage_container_name
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = "blob"
