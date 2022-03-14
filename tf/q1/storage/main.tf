@@ -6,17 +6,20 @@ provider "azurerm" {
   alias               = "sa_using_aad"
 
 }
-locals {
-  az_env = lookup(var.az_env_lookup, format("%s_%s", var.location, var.environment))
 
-  dynamic_tags = {
-    source             = "terraform"
-    app_code           = var.app_code
-    environment        = var.environment
-    cost_center_number = var.cost_center_number
-  }
-  name = "${var.app_code}_${var.app_name}_${local.az_env}_${var.index}"
-  tags = local.dynamic_tags
+module "locals" {
+  source             = "../../modules/locals"
+  app_code           = var.app_code
+  app_name           = var.app_name
+  cost_center_number = var.cost_center_number
+  environment        = var.environment
+  location           = var.location
+}
+
+locals {
+  az_env = module.locals.az_env
+  name   = "${var.app_code}_${var.app_name}_${local.az_env}_${var.index}"
+  tags   = module.locals.tags
 }
 
 ## resource group
